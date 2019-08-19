@@ -1,0 +1,942 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="chittiedevModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ChitBidTimeTable">
+          <Key>
+            <PropertyRef Name="SNO" />
+          </Key>
+          <Property Name="SNO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="chitID" Type="varchar(max)" Nullable="false" />
+          <Property Name="chitPeriod" Type="varchar" MaxLength="63" StoreGeneratedPattern="Computed" />
+          <Property Name="startDate" Type="datetime" />
+          <Property Name="endDate" Type="datetime" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="updateddate" Type="datetime" />
+          <Property Name="Termid" Type="varchar" MaxLength="999" />
+          <Property Name="Amount" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'chittiedev.chittiedev.ChitBidTransaction' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ChitBidTransaction">
+          <Key>
+            <PropertyRef Name="sno" />
+            <PropertyRef Name="userid" />
+            <PropertyRef Name="chitid" />
+            <PropertyRef Name="termgroupid" />
+          </Key>
+          <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userid" Type="varchar" MaxLength="999" Nullable="false" />
+          <Property Name="chitid" Type="varchar" MaxLength="999" Nullable="false" />
+          <Property Name="termgroupid" Type="varchar" MaxLength="999" Nullable="false" />
+          <Property Name="amount" Type="int" />
+          <Property Name="bidID" Type="varchar" MaxLength="96" StoreGeneratedPattern="Computed" />
+          <Property Name="createdDate" Type="datetime" />
+          <Property Name="updatedDate" Type="datetime" />
+          <Property Name="status" Type="bit" />
+          <Property Name="BidStatus" Type="int" />
+        </EntityType>
+        <EntityType Name="ChitConnections">
+          <Key>
+            <PropertyRef Name="connectionid" />
+          </Key>
+          <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="chitid" Type="varchar" MaxLength="100" />
+          <Property Name="connectionid" Type="varchar" MaxLength="65" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userid" Type="varchar" MaxLength="100" />
+          <Property Name="organiser" Type="bit" />
+          <Property Name="statusid" Type="int" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="updatedate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ChitDetails">
+          <Key>
+            <PropertyRef Name="chitid" />
+          </Key>
+          <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="chitname" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="tenure" Type="int" Nullable="false" />
+          <Property Name="percentage" Type="decimal" Precision="4" Scale="2" Nullable="false" />
+          <Property Name="membercount" Type="int" />
+          <Property Name="startdate" Type="datetime" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="updateddate" Type="datetime" />
+          <Property Name="status" Type="int" />
+          <Property Name="chitid" Type="varchar" MaxLength="95" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="emi" Type="int" />
+        </EntityType>
+        <EntityType Name="ChitInvitation">
+          <Key>
+            <PropertyRef Name="SNO" />
+          </Key>
+          <Property Name="SNO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Organiseruserid" Type="varchar(max)" />
+          <Property Name="inviteuserid" Type="varchar(max)" />
+          <Property Name="chitid" Type="varchar(max)" />
+          <Property Name="invitationid" Type="varchar" MaxLength="126" StoreGeneratedPattern="Computed" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="updateddate" Type="datetime" />
+          <Property Name="invitationstatus" Type="int" />
+        </EntityType>
+        <EntityType Name="ChitTermGroup">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="chitid" Type="varchar(max)" />
+          <Property Name="termnumber" Type="int" />
+          <Property Name="termgroupid" Type="varchar" MaxLength="999" />
+          <Property Name="startdate" Type="datetime" />
+          <Property Name="enddate" Type="datetime" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="updateddate" Type="datetime" />
+          <Property Name="status" Type="bit" />
+          <Property Name="EMIAmount" Type="int" />
+        </EntityType>
+        <EntityType Name="ChitTransaction">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Chitid" Type="varchar(max)" />
+          <Property Name="amount" Type="int" />
+          <Property Name="modeofpayment" Type="int" />
+          <Property Name="paymentstatus" Type="int" />
+          <Property Name="transactionid" Type="varchar" MaxLength="62" StoreGeneratedPattern="Computed" />
+          <Property Name="Createddate" Type="datetime" />
+          <Property Name="userid" Type="varchar(max)" />
+          <Property Name="TermGroupId" Type="varchar" MaxLength="999" />
+        </EntityType>
+        <EntityType Name="CodeModeOfPayment">
+          <Key>
+            <PropertyRef Name="PaymentModelID" />
+          </Key>
+          <Property Name="SNO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentModelID" Type="int" Nullable="false" />
+          <Property Name="PaymentModeName" Type="varchar" MaxLength="999" />
+        </EntityType>
+        <EntityType Name="CodePaymentStatus">
+          <Key>
+            <PropertyRef Name="PaymentStatusID" />
+          </Key>
+          <Property Name="SNO" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentStatusID" Type="int" Nullable="false" />
+          <Property Name="PaymentStatusName" Type="varchar" MaxLength="999" />
+        </EntityType>
+        <EntityType Name="ErrorHandling">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ErrorMessage" Type="varchar(max)" />
+          <Property Name="messagedate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="smsusercredentials">
+          <Key>
+            <PropertyRef Name="phonenumber" />
+          </Key>
+          <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userid" Type="varchar" MaxLength="92" StoreGeneratedPattern="Computed" />
+          <Property Name="phonenumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="150" />
+          <Property Name="verificationcode" Type="varchar" MaxLength="8" />
+          <Property Name="createddate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="smswarehouse">
+          <Key>
+            <PropertyRef Name="smswarid" />
+          </Key>
+          <Property Name="smswarid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userid" Type="varchar" MaxLength="100" />
+          <Property Name="messageaddress" Type="varchar" MaxLength="100" />
+          <Property Name="messagebody" Type="varchar(max)" />
+          <Property Name="messagetime" Type="datetime" />
+          <Property Name="messageid" Type="int" />
+          <Property Name="servicecenterid" Type="varchar" MaxLength="200" />
+          <Property Name="createdtime" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'chittiedev.chittiedev.SubsrciptionTest' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SubsrciptionTest">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="phonenumber" Type="varchar(max)" />
+          <Property Name="message" Type="varchar(max)" />
+          <Property Name="messagedate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserCredentials">
+          <Key>
+            <PropertyRef Name="phonenumber" />
+          </Key>
+          <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="100" />
+          <Property Name="password" Type="varchar(max)" />
+          <Property Name="phonenumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="99" Nullable="false" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="Updateddate" Type="datetime" />
+          <Property Name="userid" Type="varchar" MaxLength="93" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="UserRegistration">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="phonenumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="randomnnumber" Type="int" Nullable="false" />
+          <Property Name="status" Type="bit" />
+          <Property Name="createddate" Type="datetime" />
+          <Property Name="updateddate" Type="datetime" />
+        </EntityType>
+        <Function Name="ChitUserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="Chitid" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="CurrentTermGroupOfChit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="Chitid" Type="varchar(max)" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="termnumber" Type="int" />
+                <Property Name="termgroupid" Type="varchar" MaxLength="999" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="GetChitDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="chitid" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetChitMembersList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="ChitId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetUpComingUserChit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="userid" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="GetUserChit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="userid" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="IsTransactionDoneForCurrentTerm" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="userid" Type="varchar(max)" Mode="In" />
+          <Parameter Name="chitid" Type="varchar(max)" Mode="In" />
+          <Parameter Name="termgroupid" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="TermGroupDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="chitid" Type="varchar" Mode="In" />
+          <Parameter Name="termgroupid" Type="varchar" Mode="In" />
+          <Parameter Name="userid" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="UserTransaction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="userid" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="chittiedevModelStoreContainer">
+          <EntitySet Name="ChitBidTimeTable" EntityType="Self.ChitBidTimeTable" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="ChitConnections" EntityType="Self.ChitConnections" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="ChitDetails" EntityType="Self.ChitDetails" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="ChitInvitation" EntityType="Self.ChitInvitation" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="ChitTermGroup" EntityType="Self.ChitTermGroup" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="ChitTransaction" EntityType="Self.ChitTransaction" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="CodeModeOfPayment" EntityType="Self.CodeModeOfPayment" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="CodePaymentStatus" EntityType="Self.CodePaymentStatus" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="ErrorHandling" EntityType="Self.ErrorHandling" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="smsusercredentials" EntityType="Self.smsusercredentials" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="smswarehouse" EntityType="Self.smswarehouse" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="UserCredentials" EntityType="Self.UserCredentials" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="UserRegistration" EntityType="Self.UserRegistration" Schema="chittiedev" store:Type="Tables" />
+          <EntitySet Name="ChitBidTransaction" EntityType="Self.ChitBidTransaction" store:Type="Tables" store:Schema="chittiedev">
+            <DefiningQuery>SELECT 
+    [ChitBidTransaction].[sno] AS [sno], 
+    [ChitBidTransaction].[userid] AS [userid], 
+    [ChitBidTransaction].[chitid] AS [chitid], 
+    [ChitBidTransaction].[termgroupid] AS [termgroupid], 
+    [ChitBidTransaction].[amount] AS [amount], 
+    [ChitBidTransaction].[bidID] AS [bidID], 
+    [ChitBidTransaction].[createdDate] AS [createdDate], 
+    [ChitBidTransaction].[updatedDate] AS [updatedDate], 
+    [ChitBidTransaction].[status] AS [status], 
+    [ChitBidTransaction].[BidStatus] AS [BidStatus]
+    FROM [chittiedev].[ChitBidTransaction] AS [ChitBidTransaction]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SubsrciptionTest" EntityType="Self.SubsrciptionTest" store:Type="Tables" store:Schema="chittiedev">
+            <DefiningQuery>SELECT 
+    [SubsrciptionTest].[sno] AS [sno], 
+    [SubsrciptionTest].[phonenumber] AS [phonenumber], 
+    [SubsrciptionTest].[message] AS [message], 
+    [SubsrciptionTest].[messagedate] AS [messagedate]
+    FROM [chittiedev].[SubsrciptionTest] AS [SubsrciptionTest]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="chittiedevModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ChitConnection">
+          <Key>
+            <PropertyRef Name="connectionid" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="chitid" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="connectionid" Type="String" MaxLength="65" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userid" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="organiser" Type="Boolean" />
+          <Property Name="statusid" Type="Int32" />
+          <Property Name="createddate" Type="DateTime" Precision="3" />
+          <Property Name="updatedate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserCredential">
+          <Key>
+            <PropertyRef Name="phonenumber" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="phonenumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="99" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="createddate" Type="DateTime" Precision="3" />
+          <Property Name="Updateddate" Type="DateTime" Precision="3" />
+          <Property Name="userid" Type="String" MaxLength="93" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityContainer Name="chittiedevEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ChitConnections" EntityType="Self.ChitConnection" />
+          <EntitySet Name="UserCredentials" EntityType="Self.UserCredential" />
+          <FunctionImport Name="ChitUserDetails" ReturnType="Collection(chittiedevModel.ChitUserDetails_Result)">
+          <Parameter Name="Chitid" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="UserRegistrations" EntityType="chittiedevModel.UserRegistration" />
+          <EntitySet Name="ChitBidTimeTables" EntityType="chittiedevModel.ChitBidTimeTable" />
+          <EntitySet Name="ChitInvitations" EntityType="chittiedevModel.ChitInvitation" />
+          <EntitySet Name="ChitTransactions" EntityType="chittiedevModel.ChitTransaction" />
+          <EntitySet Name="ChitTermGroups" EntityType="chittiedevModel.ChitTermGroup" />
+          <FunctionImport Name="GetChitDetails" ReturnType="Collection(chittiedevModel.GetChitDetails_Result)">
+          <Parameter Name="chitid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUserChit">
+          <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="CodeModeOfPayments" EntityType="chittiedevModel.CodeModeOfPayment" />
+          <EntitySet Name="CodePaymentStatus" EntityType="chittiedevModel.CodePaymentStatu" />
+          <EntitySet Name="ErrorHandlings" EntityType="chittiedevModel.ErrorHandling" />
+          <EntitySet Name="ChitBidTransactions" EntityType="chittiedevModel.ChitBidTransaction" />
+          <FunctionImport Name="TermGroupDetails" ReturnType="Collection(chittiedevModel.TermGroupDetails_Result)">
+            <Parameter Name="chitid" Mode="In" Type="String" />
+            <Parameter Name="termgroupid" Mode="In" Type="String" />
+            <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserTransaction" ReturnType="Collection(chittiedevModel.UserTransaction_Result)">
+          <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CurrentTermGroupOfChit" IsComposable="true" ReturnType="Collection(chittiedevModel.CurrentTermGroupOfChit_Result)">
+          <Parameter Name="Chitid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="IsTransactionDoneForCurrentTerm" ReturnType="Collection(chittiedevModel.IsTransactionDoneForCurrentTerm_Result)">
+            <Parameter Name="userid" Mode="In" Type="String" />
+            <Parameter Name="chitid" Mode="In" Type="String" />
+            <Parameter Name="termgroupid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetChitMembersList" ReturnType="Collection(chittiedevModel.GetChitMembersList_Result)">
+          <Parameter Name="ChitId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUpComingUserChit">
+          <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="ChitDetails" EntityType="chittiedevModel.ChitDetail" />
+          <FunctionImport Name="GetChitDetails1" ReturnType="Collection(chittiedevModel.GetChitDetails1_Result)">
+          <Parameter Name="chitid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUpComingUserChit1" ReturnType="Collection(chittiedevModel.GetUpComingUserChit1_Result)">
+          <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="smsusercredentials" EntityType="chittiedevModel.smsusercredential" />
+          <EntitySet Name="smswarehouses" EntityType="chittiedevModel.smswarehouse" />
+          <EntitySet Name="SubsrciptionTests" EntityType="chittiedevModel.SubsrciptionTest" />
+        </EntityContainer>
+        <ComplexType Name="ChitUserDetails_Result">
+          <Property Type="String" Name="chitid" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="statusid" Nullable="true" />
+          <Property Type="Boolean" Name="organiser" Nullable="true" />
+          <Property Type="String" Name="username" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="phonenumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="email" Nullable="true" MaxLength="99" />
+          <Property Type="String" Name="userid" Nullable="true" MaxLength="93" />
+          <Property Type="String" Name="chitname" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <EntityType Name="UserRegistration">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="phonenumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="randomnnumber" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="createddate" Type="DateTime" Precision="3" />
+          <Property Name="updateddate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ChitBidTimeTable">
+          <Key>
+            <PropertyRef Name="SNO" />
+          </Key>
+          <Property Name="SNO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="chitID" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="chitPeriod" Type="String" MaxLength="63" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="startDate" Type="DateTime" Precision="3" />
+          <Property Name="endDate" Type="DateTime" Precision="3" />
+          <Property Name="createddate" Type="DateTime" Precision="3" />
+          <Property Name="updateddate" Type="DateTime" Precision="3" />
+          <Property Name="Termid" Type="String" MaxLength="999" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ChitInvitation">
+          <Key>
+            <PropertyRef Name="SNO" />
+          </Key>
+          <Property Name="SNO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Organiseruserid" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="inviteuserid" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="chitid" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="invitationid" Type="String" MaxLength="126" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="createddate" Type="DateTime" Precision="3" />
+          <Property Name="updateddate" Type="DateTime" Precision="3" />
+          <Property Name="invitationstatus" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ChitTransaction">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Chitid" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="amount" Type="Int32" />
+          <Property Name="modeofpayment" Type="Int32" />
+          <Property Name="paymentstatus" Type="Int32" />
+          <Property Name="transactionid" Type="String" MaxLength="62" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Createddate" Type="DateTime" Precision="3" />
+          <Property Name="userid" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TermGroupId" Type="String" MaxLength="999" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ChitTermGroup">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="chitid" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="termnumber" Type="Int32" />
+          <Property Name="termgroupid" Type="String" MaxLength="999" FixedLength="false" Unicode="false" />
+          <Property Name="startdate" Type="DateTime" Precision="3" />
+          <Property Name="enddate" Type="DateTime" Precision="3" />
+          <Property Name="createddate" Type="DateTime" Precision="3" />
+          <Property Name="updateddate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="EMIAmount" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="GetChitDetails_Result">
+          <Property Type="Int32" Name="sno" Nullable="false" />
+          <Property Type="String" Name="chitname" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="tenure" Nullable="false" />
+          <Property Type="Decimal" Name="percentage" Nullable="false" Precision="4" Scale="2" />
+          <Property Type="Int32" Name="membercount" Nullable="true" />
+          <Property Type="DateTime" Name="startdate" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="emi" Nullable="true" Precision="21" Scale="13" />
+          <Property Type="DateTime" Name="createddate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="updateddate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="status" Nullable="true" />
+          <Property Type="String" Name="chitid" Nullable="true" MaxLength="95" />
+        </ComplexType>
+        <EntityType Name="CodeModeOfPayment">
+          <Key>
+            <PropertyRef Name="PaymentModelID" />
+          </Key>
+          <Property Name="SNO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentModelID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentModeName" Type="String" MaxLength="999" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="CodePaymentStatu">
+          <Key>
+            <PropertyRef Name="PaymentStatusID" />
+          </Key>
+          <Property Name="SNO" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentStatusID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentStatusName" Type="String" MaxLength="999" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ErrorHandling">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="messagedate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ChitBidTransaction">
+          <Key>
+            <PropertyRef Name="sno" />
+            <PropertyRef Name="userid" />
+            <PropertyRef Name="chitid" />
+            <PropertyRef Name="termgroupid" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userid" Type="String" Nullable="false" MaxLength="999" FixedLength="false" Unicode="false" />
+          <Property Name="chitid" Type="String" Nullable="false" MaxLength="999" FixedLength="false" Unicode="false" />
+          <Property Name="termgroupid" Type="String" Nullable="false" MaxLength="999" FixedLength="false" Unicode="false" />
+          <Property Name="amount" Type="Int32" />
+          <Property Name="bidID" Type="String" MaxLength="96" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="createdDate" Type="DateTime" Precision="3" />
+          <Property Name="updatedDate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Boolean" />
+          <Property Name="BidStatus" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="TermGroupDetails_Result">
+          <Property Type="String" Name="username" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="userid" Nullable="true" />
+          <Property Type="String" Name="transactionid" Nullable="true" MaxLength="62" />
+          <Property Type="DateTime" Name="Createddate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="PaymentModeName" Nullable="true" MaxLength="999" />
+          <Property Type="String" Name="PaymentStatusName" Nullable="true" MaxLength="999" />
+          <Property Type="Int32" Name="amount" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="UserTransaction_Result">
+          <Property Type="String" Name="chitid" Nullable="true" />
+          <Property Type="Int32" Name="amount" Nullable="true" />
+          <Property Type="DateTime" Name="createddate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userid" Nullable="true" />
+          <Property Type="String" Name="termgroupid" Nullable="true" MaxLength="999" />
+          <Property Type="String" Name="PaymentStatusName" Nullable="true" MaxLength="999" />
+          <Property Type="String" Name="PaymentModeName" Nullable="true" MaxLength="999" />
+          <Property Type="Int32" Name="termnumber" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="CurrentTermGroupOfChit_Result">
+          <Property Type="Int32" Name="termnumber" Nullable="true" />
+          <Property Type="String" Name="termgroupid" Nullable="true" MaxLength="999" />
+        </ComplexType>
+        <ComplexType Name="IsTransactionDoneForCurrentTerm_Result">
+          <Property Type="Int32" Name="sno" Nullable="false" />
+          <Property Type="String" Name="Chitid" Nullable="true" />
+          <Property Type="Int32" Name="amount" Nullable="true" />
+          <Property Type="Int32" Name="modeofpayment" Nullable="true" />
+          <Property Type="Int32" Name="paymentstatus" Nullable="true" />
+          <Property Type="String" Name="transactionid" Nullable="true" MaxLength="62" />
+          <Property Type="DateTime" Name="Createddate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="userid" Nullable="true" />
+          <Property Type="String" Name="TermGroupId" Nullable="true" MaxLength="999" />
+        </ComplexType>
+        <ComplexType Name="GetChitMembersList_Result">
+          <Property Type="String" Name="connectionid" Nullable="true" MaxLength="65" />
+          <Property Type="String" Name="userid" Nullable="true" MaxLength="93" />
+          <Property Type="Boolean" Name="organiser" Nullable="true" />
+          <Property Type="String" Name="username" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="phonenumber" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="ChitDetail">
+          <Key>
+            <PropertyRef Name="chitid" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="chitname" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="tenure" Type="Int32" Nullable="false" />
+          <Property Name="percentage" Type="Decimal" Nullable="false" Precision="4" Scale="2" />
+          <Property Name="membercount" Type="Int32" />
+          <Property Name="startdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="amount" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="createddate" Type="DateTime" Precision="3" />
+          <Property Name="updateddate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="chitid" Type="String" Nullable="false" MaxLength="95" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="emi" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="GetChitDetails1_Result">
+          <Property Type="Int32" Name="sno" Nullable="false" />
+          <Property Type="String" Name="chitname" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="tenure" Nullable="false" />
+          <Property Type="Decimal" Name="percentage" Nullable="false" Precision="4" Scale="2" />
+          <Property Type="Int32" Name="membercount" Nullable="true" />
+          <Property Type="DateTime" Name="startdate" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="DateTime" Name="createddate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="updateddate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="status" Nullable="true" />
+          <Property Type="String" Name="chitid" Nullable="true" MaxLength="95" />
+          <Property Type="Int32" Name="emi" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetUpComingUserChit1_Result">
+          <Property Type="String" Name="chitid" Nullable="true" MaxLength="95" />
+          <Property Type="String" Name="chitname" Nullable="false" MaxLength="500" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="emi" Nullable="true" />
+          <Property Type="Boolean" Name="organiser" Nullable="true" />
+          <Property Type="Int32" Name="statusid" Nullable="true" />
+          <Property Type="Int32" Name="tenure" Nullable="false" />
+          <Property Type="Int32" Name="NextChitDaysLeft" Nullable="true" />
+          <Property Type="DateTime" Name="enddate" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="smsusercredential">
+          <Key>
+            <PropertyRef Name="phonenumber" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userid" Type="String" MaxLength="92" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="phonenumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="verificationcode" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="createddate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="smswarehouse">
+          <Key>
+            <PropertyRef Name="smswarid" />
+          </Key>
+          <Property Name="smswarid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userid" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="messageaddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="messagebody" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="messagetime" Type="DateTime" Precision="3" />
+          <Property Name="messageid" Type="Int32" />
+          <Property Name="servicecenterid" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="createdtime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SubsrciptionTest">
+          <Key>
+            <PropertyRef Name="sno" />
+          </Key>
+          <Property Name="sno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="phonenumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="messagedate" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="chittiedevModelStoreContainer" CdmEntityContainer="chittiedevEntities">
+          <EntitySetMapping Name="ChitConnections">
+            <EntityTypeMapping TypeName="chittiedevModel.ChitConnection">
+              <MappingFragment StoreEntitySet="ChitConnections">
+                <ScalarProperty Name="sno" ColumnName="sno" />
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="connectionid" ColumnName="connectionid" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="organiser" ColumnName="organiser" />
+                <ScalarProperty Name="statusid" ColumnName="statusid" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="updatedate" ColumnName="updatedate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserCredentials">
+            <EntityTypeMapping TypeName="chittiedevModel.UserCredential">
+              <MappingFragment StoreEntitySet="UserCredentials">
+                <ScalarProperty Name="sno" ColumnName="sno" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="Updateddate" ColumnName="Updateddate" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ChitUserDetails" FunctionName="chittiedevModel.Store.ChitUserDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.ChitUserDetails_Result">
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="statusid" ColumnName="statusid" />
+                <ScalarProperty Name="organiser" ColumnName="organiser" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="chitname" ColumnName="chitname" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="UserRegistrations">
+            <EntityTypeMapping TypeName="chittiedevModel.UserRegistration">
+              <MappingFragment StoreEntitySet="UserRegistration">
+                <ScalarProperty Name="updateddate" ColumnName="updateddate" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="randomnnumber" ColumnName="randomnnumber" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+                <ScalarProperty Name="sno" ColumnName="sno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChitBidTimeTables">
+            <EntityTypeMapping TypeName="chittiedevModel.ChitBidTimeTable">
+              <MappingFragment StoreEntitySet="ChitBidTimeTable">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Termid" ColumnName="Termid" />
+                <ScalarProperty Name="updateddate" ColumnName="updateddate" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="chitPeriod" ColumnName="chitPeriod" />
+                <ScalarProperty Name="chitID" ColumnName="chitID" />
+                <ScalarProperty Name="SNO" ColumnName="SNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChitInvitations">
+            <EntityTypeMapping TypeName="chittiedevModel.ChitInvitation">
+              <MappingFragment StoreEntitySet="ChitInvitation">
+                <ScalarProperty Name="invitationstatus" ColumnName="invitationstatus" />
+                <ScalarProperty Name="updateddate" ColumnName="updateddate" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="invitationid" ColumnName="invitationid" />
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="inviteuserid" ColumnName="inviteuserid" />
+                <ScalarProperty Name="Organiseruserid" ColumnName="Organiseruserid" />
+                <ScalarProperty Name="SNO" ColumnName="SNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChitTransactions">
+            <EntityTypeMapping TypeName="chittiedevModel.ChitTransaction">
+              <MappingFragment StoreEntitySet="ChitTransaction">
+                <ScalarProperty Name="TermGroupId" ColumnName="TermGroupId" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="Createddate" ColumnName="Createddate" />
+                <ScalarProperty Name="transactionid" ColumnName="transactionid" />
+                <ScalarProperty Name="paymentstatus" ColumnName="paymentstatus" />
+                <ScalarProperty Name="modeofpayment" ColumnName="modeofpayment" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="Chitid" ColumnName="Chitid" />
+                <ScalarProperty Name="sno" ColumnName="sno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChitTermGroups">
+            <EntityTypeMapping TypeName="chittiedevModel.ChitTermGroup">
+              <MappingFragment StoreEntitySet="ChitTermGroup">
+                <ScalarProperty Name="EMIAmount" ColumnName="EMIAmount" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="updateddate" ColumnName="updateddate" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="enddate" ColumnName="enddate" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="termgroupid" ColumnName="termgroupid" />
+                <ScalarProperty Name="termnumber" ColumnName="termnumber" />
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="sno" ColumnName="sno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetUserChit" FunctionName="chittiedevModel.Store.GetUserChit">
+          </FunctionImportMapping>
+          <EntitySetMapping Name="CodeModeOfPayments">
+            <EntityTypeMapping TypeName="chittiedevModel.CodeModeOfPayment">
+              <MappingFragment StoreEntitySet="CodeModeOfPayment">
+                <ScalarProperty Name="PaymentModeName" ColumnName="PaymentModeName" />
+                <ScalarProperty Name="PaymentModelID" ColumnName="PaymentModelID" />
+                <ScalarProperty Name="SNO" ColumnName="SNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CodePaymentStatus">
+            <EntityTypeMapping TypeName="chittiedevModel.CodePaymentStatu">
+              <MappingFragment StoreEntitySet="CodePaymentStatus">
+                <ScalarProperty Name="PaymentStatusName" ColumnName="PaymentStatusName" />
+                <ScalarProperty Name="PaymentStatusID" ColumnName="PaymentStatusID" />
+                <ScalarProperty Name="SNO" ColumnName="SNO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ErrorHandlings">
+            <EntityTypeMapping TypeName="chittiedevModel.ErrorHandling">
+              <MappingFragment StoreEntitySet="ErrorHandling">
+                <ScalarProperty Name="messagedate" ColumnName="messagedate" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="sno" ColumnName="sno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChitBidTransactions">
+            <EntityTypeMapping TypeName="chittiedevModel.ChitBidTransaction">
+              <MappingFragment StoreEntitySet="ChitBidTransaction">
+                <ScalarProperty Name="BidStatus" ColumnName="BidStatus" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="updatedDate" ColumnName="updatedDate" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="bidID" ColumnName="bidID" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="termgroupid" ColumnName="termgroupid" />
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="sno" ColumnName="sno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="TermGroupDetails" FunctionName="chittiedevModel.Store.TermGroupDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.TermGroupDetails_Result">
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="transactionid" ColumnName="transactionid" />
+                <ScalarProperty Name="Createddate" ColumnName="Createddate" />
+                <ScalarProperty Name="PaymentModeName" ColumnName="PaymentModeName" />
+                <ScalarProperty Name="PaymentStatusName" ColumnName="PaymentStatusName" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UserTransaction" FunctionName="chittiedevModel.Store.UserTransaction">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.UserTransaction_Result">
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="termgroupid" ColumnName="termgroupid" />
+                <ScalarProperty Name="PaymentStatusName" ColumnName="PaymentStatusName" />
+                <ScalarProperty Name="PaymentModeName" ColumnName="PaymentModeName" />
+                <ScalarProperty Name="termnumber" ColumnName="termnumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CurrentTermGroupOfChit" FunctionName="chittiedevModel.Store.CurrentTermGroupOfChit">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.CurrentTermGroupOfChit_Result">
+                <ScalarProperty Name="termnumber" ColumnName="termnumber" />
+                <ScalarProperty Name="termgroupid" ColumnName="termgroupid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="IsTransactionDoneForCurrentTerm" FunctionName="chittiedevModel.Store.IsTransactionDoneForCurrentTerm">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.IsTransactionDoneForCurrentTerm_Result">
+                <ScalarProperty Name="sno" ColumnName="sno" />
+                <ScalarProperty Name="Chitid" ColumnName="Chitid" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="modeofpayment" ColumnName="modeofpayment" />
+                <ScalarProperty Name="paymentstatus" ColumnName="paymentstatus" />
+                <ScalarProperty Name="transactionid" ColumnName="transactionid" />
+                <ScalarProperty Name="Createddate" ColumnName="Createddate" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="TermGroupId" ColumnName="TermGroupId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetChitMembersList" FunctionName="chittiedevModel.Store.GetChitMembersList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.GetChitMembersList_Result">
+                <ScalarProperty Name="connectionid" ColumnName="connectionid" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="organiser" ColumnName="organiser" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="ChitDetails">
+            <EntityTypeMapping TypeName="chittiedevModel.ChitDetail">
+              <MappingFragment StoreEntitySet="ChitDetails">
+                <ScalarProperty Name="emi" ColumnName="emi" />
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="updateddate" ColumnName="updateddate" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="membercount" ColumnName="membercount" />
+                <ScalarProperty Name="percentage" ColumnName="percentage" />
+                <ScalarProperty Name="tenure" ColumnName="tenure" />
+                <ScalarProperty Name="chitname" ColumnName="chitname" />
+                <ScalarProperty Name="sno" ColumnName="sno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetChitDetails1" FunctionName="chittiedevModel.Store.GetChitDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.GetChitDetails1_Result">
+                <ScalarProperty Name="sno" ColumnName="sno" />
+                <ScalarProperty Name="chitname" ColumnName="chitname" />
+                <ScalarProperty Name="tenure" ColumnName="tenure" />
+                <ScalarProperty Name="percentage" ColumnName="percentage" />
+                <ScalarProperty Name="membercount" ColumnName="membercount" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="updateddate" ColumnName="updateddate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="emi" ColumnName="emi" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUpComingUserChit1" FunctionName="chittiedevModel.Store.GetUpComingUserChit">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.GetUpComingUserChit1_Result">
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="chitname" ColumnName="chitname" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="emi" ColumnName="emi" />
+                <ScalarProperty Name="organiser" ColumnName="organiser" />
+                <ScalarProperty Name="statusid" ColumnName="statusid" />
+                <ScalarProperty Name="tenure" ColumnName="tenure" />
+                <ScalarProperty Name="NextChitDaysLeft" ColumnName="NextChitDaysLeft" />
+                <ScalarProperty Name="enddate" ColumnName="enddate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="smsusercredentials">
+            <EntityTypeMapping TypeName="chittiedevModel.smsusercredential">
+              <MappingFragment StoreEntitySet="smsusercredentials">
+                <ScalarProperty Name="createddate" ColumnName="createddate" />
+                <ScalarProperty Name="verificationcode" ColumnName="verificationcode" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="sno" ColumnName="sno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="smswarehouses">
+            <EntityTypeMapping TypeName="chittiedevModel.smswarehouse">
+              <MappingFragment StoreEntitySet="smswarehouse">
+                <ScalarProperty Name="createdtime" ColumnName="createdtime" />
+                <ScalarProperty Name="servicecenterid" ColumnName="servicecenterid" />
+                <ScalarProperty Name="messageid" ColumnName="messageid" />
+                <ScalarProperty Name="messagetime" ColumnName="messagetime" />
+                <ScalarProperty Name="messagebody" ColumnName="messagebody" />
+                <ScalarProperty Name="messageaddress" ColumnName="messageaddress" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="smswarid" ColumnName="smswarid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubsrciptionTests">
+            <EntityTypeMapping TypeName="chittiedevModel.SubsrciptionTest">
+              <MappingFragment StoreEntitySet="SubsrciptionTest">
+                <ScalarProperty Name="messagedate" ColumnName="messagedate" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+                <ScalarProperty Name="sno" ColumnName="sno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

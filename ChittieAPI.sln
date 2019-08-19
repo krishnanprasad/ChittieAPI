@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChittieAPI", "ChittieAPI\ChittieAPI.csproj", "{0E8549B4-9E7F-471A-B65A-F390793C035B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E8549B4-9E7F-471A-B65A-F390793C035B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E8549B4-9E7F-471A-B65A-F390793C035B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E8549B4-9E7F-471A-B65A-F390793C035B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E8549B4-9E7F-471A-B65A-F390793C035B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5AA592B4-1187-4D0E-BCA0-B772ED4B593B}
+	EndGlobalSection
+EndGlobal
