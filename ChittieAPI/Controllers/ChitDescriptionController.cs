@@ -1,4 +1,5 @@
 ﻿using ChittieAPI.Models;
+using ChittieAPI.Models.ChitDescription;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,7 +18,7 @@ namespace ChittieAPI.Controllers
 {
     public class ChitDescriptionController : ApiController
     {
-       
+
         chittiedevEntities _db = new chittiedevEntities();
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
@@ -81,7 +82,7 @@ namespace ChittieAPI.Controllers
         /// <param name="StartDate"></param>
         /// <returns></returns>
 
-        
+
 
         /// <summary>
         /// Update The Date Time of Chit
@@ -97,7 +98,7 @@ namespace ChittieAPI.Controllers
 
         [HttpGet]
         [Route("api/ChitDescription/GetChitDetails")]
-        public HttpResponseMessage GetChitDetails(String Chitid,string UserId)
+        public HttpResponseMessage GetChitDetails(String Chitid, string UserId)
         {
             try
             {
@@ -145,8 +146,9 @@ namespace ChittieAPI.Controllers
 
                     reader.NextResult();
 
-
-                    _HomeChitData.IsOrganiser = ((IObjectContextAdapter)db).ObjectContext.Translate<String>(reader).FirstOrDefault().ToString();
+                    
+                    _HomeChitData.ConnectionDetails = ((IObjectContextAdapter)db).ObjectContext
+                        .Translate<ChitConnection>(reader, "ChitConnections", MergeOption.AppendOnly).FirstOrDefault();
 
 
                 }
@@ -172,7 +174,7 @@ namespace ChittieAPI.Controllers
                     cmd.CommandText = "[GetChitMembersList]";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(new SqlParameter("@chitid", ChitId));
-                    
+
                     // execute your command
                     db.Database.Connection.Open();
                     var reader = cmd.ExecuteReader();
@@ -185,11 +187,11 @@ namespace ChittieAPI.Controllers
                     //move to next result set
                     //reader.NextResult();    
 
-                    
-                 
+
+
 
                     return Request.CreateResponse(HttpStatusCode.OK, _GetChitUserList);
-                }                
+                }
             }
             catch (Exception E)
             {
@@ -199,7 +201,7 @@ namespace ChittieAPI.Controllers
 
         [HttpGet]
         [Route("api/ChitDescription/GetTenureDetails")]
-        public HttpResponseMessage GetTenureDetails(string userid,string Chitid, string termgroupid)
+        public HttpResponseMessage GetTenureDetails(string userid, string Chitid, string termgroupid)
         {
             try
             {
@@ -232,7 +234,7 @@ namespace ChittieAPI.Controllers
                     reader.NextResult();
 
 
-                    _TransactionService.TransactopnChitTermDetails = ((IObjectContextAdapter)db)
+                    _TransactionService.TransactionChitTermDetails = ((IObjectContextAdapter)db)
                         .ObjectContext
                         .Translate<ChitTermGroup>(reader, "ChitTermGroups", MergeOption.AppendOnly).FirstOrDefault();
                     reader.NextResult();
@@ -240,6 +242,12 @@ namespace ChittieAPI.Controllers
                     _TransactionService.IsTransactionDoneForCurrentTerm = ((IObjectContextAdapter)db)
                         .ObjectContext
                         .Translate<ChitTransaction>(reader).ToList();
+                    reader.NextResult();
+
+                    _TransactionService.IsBidDoneForCurrentTerms = ((IObjectContextAdapter)db)
+                       .ObjectContext
+                       .Translate<IsBidDoneForCurrentTerm>(reader).FirstOrDefault();
+
                 }
                 return Request.CreateResponse(HttpStatusCode.OK, _TransactionService);
             }
@@ -255,11 +263,11 @@ namespace ChittieAPI.Controllers
         {
             try
             {
-                ChitConnection _NewInvitation = new ChitConnection();                
+                ChitConnection _NewInvitation = new ChitConnection();
                 _NewInvitation.chitid = SendInvitation.ChitId;
                 _NewInvitation.userid = SendInvitation.UserId;
-                
-                _NewInvitation.organiser =false;
+
+                _NewInvitation.organiser = false;
                 _NewInvitation.statusid = 0;
                 _NewInvitation.createddate = DateTime.Now;
                 _NewInvitation.updatedate = DateTime.Now;
@@ -267,10 +275,62 @@ namespace ChittieAPI.Controllers
                 _db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, "Success");
             }
+            catch (Exception E)
+            {
+
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Failed Transaction" + E.InnerException);
+            }
+        }
+        [HttpGet]
+        [Route("api/ChitDescription/GetInvitation")]
+        public HttpResponseMessage GetInvitation(string ChitId)
+        {
+            try
+            {
+                List<G_ChitInvitation> _G_ChitInvitation = new List<G_ChitInvitation>();
+                //var a = _db.GetChitDetails(Chitid);
+                using (var db = new chittiedevEntities())
+                {
+                    // Create a SQL command and add parameter
+                    var cmd = db.Database.Connection.CreateCommand();
+                    cmd.CommandText = "[ChitInvitationsStatus]";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@chitid", ChitId));
+
+
+                    // execute your command
+                    db.Database.Connection.Open();
+                    var reader = cmd.ExecuteReader();
+
+                    // Read first model --> _G_ChitInvitation
+                    _G_ChitInvitation = ((IObjectContextAdapter)db)
+                        .ObjectContext
+                        .Translate<G_ChitInvitation>(reader).ToList<G_ChitInvitation>();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, _G_ChitInvitation);
+            }
+            catch (Exception E)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Failed Transaction" + E.InnerException);
+            }
+        }
+        [HttpGet]
+        [Route("api/ChitDescription/GetTimeTable")]
+        public HttpResponseMessage GetTimeTable(string ChitId)
+        {
+            try
+            {
+                G_ChitTimeTable _G_ChitTimeTable = new G_ChitTimeTable();
+                using (var db = new chittiedevEntities())
+                {
+                    _G_ChitTimeTable.ChitBidTimeTablesList= db.ChitBidTimeTables.Where(d => d.chitID == ChitId).ToList();
+                    _G_ChitTimeTable.ChitTermGroupsList=db.ChitTermGroups.Where(d => d.chitid == ChitId).ToList();
+                }
+                return Request.CreateResponse(HttpStatusCode.OK, _G_ChitTimeTable);
+            }
             catch(Exception E)
             {
-                
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Failed Transaction"+ E.InnerException );
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Failed"+E.InnerException);
             }
         }
     }

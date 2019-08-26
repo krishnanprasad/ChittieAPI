@@ -11,7 +11,8 @@ namespace ChittieAPI
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class ChitDetail
     {
         public int sno { get; set; }
@@ -24,6 +25,7 @@ namespace ChittieAPI
         public Nullable<System.DateTime> createddate { get; set; }
         public Nullable<System.DateTime> updateddate { get; set; }
         public Nullable<int> status { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string chitid { get; set; }
         public Nullable<int> emi { get; set; }
     }

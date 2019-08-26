@@ -12,6 +12,6 @@ namespace ChittieAPI.Models
         public List<ChitUserDetails> ChitUserDetails { get; set; }
         public List<TempChitTermGroup> ChitTermGroupList { get; set; }
         public List<ChitBidTimeTable> ChitBidTimeTableList { get; set; }
-        public String IsOrganiser { get; set; }
+        public ChitConnection ConnectionDetails { get; set; }
     }
 }

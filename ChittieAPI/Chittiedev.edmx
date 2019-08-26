@@ -194,6 +194,9 @@ warning 6002: The table/view 'chittiedev.chittiedev.SubsrciptionTest' does not h
           <Property Name="createddate" Type="datetime" />
           <Property Name="updateddate" Type="datetime" />
         </EntityType>
+        <Function Name="ChitInvitationsStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="chitid" Type="varchar(max)" Mode="In" />
+        </Function>
         <Function Name="ChitUserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
           <Parameter Name="Chitid" Type="nvarchar" Mode="In" />
         </Function>
@@ -214,6 +217,12 @@ warning 6002: The table/view 'chittiedev.chittiedev.SubsrciptionTest' does not h
         </Function>
         <Function Name="GetChitMembersList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
           <Parameter Name="ChitId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="getDashboardDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="userid" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="GetInvitedUserChit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="userid" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="GetUpComingUserChit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
           <Parameter Name="userid" Type="varchar(max)" Mode="In" />
@@ -240,6 +249,9 @@ warning 6002: The table/view 'chittiedev.chittiedev.SubsrciptionTest' does not h
           <Parameter Name="statusid" Type="int" Mode="In" />
         </Function>
         <Function Name="UserChitInvitaion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
+          <Parameter Name="userid" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="UserProfile" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
           <Parameter Name="userid" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="UserTransaction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="chittiedev">
@@ -331,7 +343,7 @@ warning 6002: The table/view 'chittiedev.chittiedev.SubsrciptionTest' does not h
           <Property Name="createddate" Type="DateTime" Precision="3" />
           <Property Name="updateddate" Type="DateTime" Precision="3" />
           <Property Name="status" Type="Int32" />
-          <Property Name="chitid" Type="String" MaxLength="95" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="chitid" Type="String" MaxLength="95" FixedLength="false" Unicode="false" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="emi" Type="Int32" />
         </EntityType>
         <EntityType Name="ChitInvitation">
@@ -534,6 +546,18 @@ warning 6002: The table/view 'chittiedev.chittiedev.SubsrciptionTest' does not h
             <Parameter Name="connectionid" Mode="In" Type="String" />
             <Parameter Name="statusid" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="getDashboardDetails" ReturnType="Collection(Int32)">
+          <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UserProfile" ReturnType="Collection(chittiedevModel.UserProfile_Result)">
+          <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ChitInvitationsStatus" ReturnType="Collection(chittiedevModel.ChitInvitationsStatus_Result)">
+          <Parameter Name="chitid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetInvitedUserChit" ReturnType="Collection(chittiedevModel.GetInvitedUserChit_Result)">
+            <Parameter Name="userid" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="ChitUserDetails_Result">
           <Property Type="String" Name="chitid" Nullable="true" MaxLength="100" />
@@ -635,6 +659,31 @@ warning 6002: The table/view 'chittiedev.chittiedev.SubsrciptionTest' does not h
           <Property Type="String" Name="connectionid" Nullable="true" MaxLength="65" />
           <Property Type="String" Name="userid" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="username" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="UserProfile_Result">
+          <Property Type="String" Name="username" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="phonenumber" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="99" />
+          <Property Type="String" Name="userid" Nullable="true" MaxLength="93" />
+        </ComplexType>
+        <ComplexType Name="ChitInvitationsStatus_Result">
+          <Property Type="String" Name="userid" Nullable="true" MaxLength="93" />
+          <Property Type="String" Name="username" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="phonenumber" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="chitid" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="connectionid" Nullable="true" MaxLength="65" />
+          <Property Type="Int32" Name="statusid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetInvitedUserChit_Result">
+          <Property Type="String" Name="chitid" Nullable="true" MaxLength="95" />
+          <Property Type="String" Name="chitname" Nullable="false" MaxLength="500" />
+          <Property Type="Decimal" Name="amount" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="emi" Nullable="true" />
+          <Property Type="Boolean" Name="organiser" Nullable="true" />
+          <Property Type="Int32" Name="statusid" Nullable="true" />
+          <Property Type="Int32" Name="tenure" Nullable="false" />
+          <Property Type="Int32" Name="NextChitDaysLeft" Nullable="true" />
+          <Property Type="DateTime" Name="enddate" Nullable="true" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -989,6 +1038,44 @@ warning 6002: The table/view 'chittiedev.chittiedev.SubsrciptionTest' does not h
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UpdateInvitation" FunctionName="chittiedevModel.Store.UpdateInvitation" />
+          <FunctionImportMapping FunctionImportName="getDashboardDetails" FunctionName="chittiedevModel.Store.getDashboardDetails" />
+          <FunctionImportMapping FunctionImportName="UserProfile" FunctionName="chittiedevModel.Store.UserProfile">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.UserProfile_Result">
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ChitInvitationsStatus" FunctionName="chittiedevModel.Store.ChitInvitationsStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.ChitInvitationsStatus_Result">
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="connectionid" ColumnName="connectionid" />
+                <ScalarProperty Name="statusid" ColumnName="statusid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetInvitedUserChit" FunctionName="chittiedevModel.Store.GetInvitedUserChit">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="chittiedevModel.GetInvitedUserChit_Result">
+                <ScalarProperty Name="chitid" ColumnName="chitid" />
+                <ScalarProperty Name="chitname" ColumnName="chitname" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="emi" ColumnName="emi" />
+                <ScalarProperty Name="organiser" ColumnName="organiser" />
+                <ScalarProperty Name="statusid" ColumnName="statusid" />
+                <ScalarProperty Name="tenure" ColumnName="tenure" />
+                <ScalarProperty Name="NextChitDaysLeft" ColumnName="NextChitDaysLeft" />
+                <ScalarProperty Name="enddate" ColumnName="enddate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

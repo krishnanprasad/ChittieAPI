@@ -11,7 +11,7 @@ namespace ChittieAPI
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class ChitTermGroup
     {
         public int sno { get; set; }
@@ -24,5 +24,16 @@ namespace ChittieAPI
         public Nullable<System.DateTime> updateddate { get; set; }
         public Nullable<bool> status { get; set; }
         public Nullable<int> EMIAmount { get; set; }
+
     }
+    public class CurrentTenureBidStatus
+    {
+        public int BidAmount { get; set; }
+        public bool BidTaken { get; set; }
+        public string BidTakenByUser{ get; set; }
+        public string BidTakenByUserId { get; set; }
+        public int BidTakenAmount { get; set; }
+
+    }
+
 }

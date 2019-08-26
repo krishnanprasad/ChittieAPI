@@ -179,5 +179,32 @@ namespace ChittieAPI
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateInvitation", useridParameter, connectionidParameter, statusidParameter);
         }
+    
+        public virtual ObjectResult<Nullable<int>> getDashboardDetails(string userid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("getDashboardDetails", useridParameter);
+        }
+    
+        public virtual ObjectResult<UserProfile_Result> UserProfile(string userid)
+        {
+            var useridParameter = userid != null ?
+                new ObjectParameter("userid", userid) :
+                new ObjectParameter("userid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UserProfile_Result>("UserProfile", useridParameter);
+        }
+    
+        public virtual ObjectResult<ChitInvitationsStatus_Result> ChitInvitationsStatus(string chitid)
+        {
+            var chitidParameter = chitid != null ?
+                new ObjectParameter("chitid", chitid) :
+                new ObjectParameter("chitid", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ChitInvitationsStatus_Result>("ChitInvitationsStatus", chitidParameter);
+        }
     }
 }

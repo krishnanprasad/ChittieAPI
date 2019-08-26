@@ -29,9 +29,21 @@ namespace ChittieAPI.Models
 
         public List<ChitTransaction> IsTransactionDoneForCurrentTerm{ get; set; }
 
-        public ChitTermGroup TransactopnChitTermDetails { get; set; }
+        public ChitTermGroup TransactionChitTermDetails { get; set; }
 
         public List<TermGroupBidList> TermGroupBidList { get; set; }
+
+        public IsBidDoneForCurrentTerm IsBidDoneForCurrentTerms { get; set; }
+    }
+
+    public class IsBidDoneForCurrentTerm
+    {
+        public string username { get; set; }
+        public string userid { get; set; }
+        public string phonenumber { get; set; }
+        public int Amount { get; set; }
+        public DateTime createddate { get; set; }
+        public object status { get; set; }
     }
 
     public class TermGroupBidList

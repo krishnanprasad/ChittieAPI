@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Linq;
 using System.Web.Http.Cors;
+using System.Data.SqlClient;
 
 namespace ChittieAPI.Controllers
 {
@@ -51,20 +52,34 @@ namespace ChittieAPI.Controllers
             //Creating New Chit First
             try
             {
-                ChitDetail NewChit = new ChitDetail
-                {
-                    chitname = CreateChit.ChitName,
-                    tenure = CreateChit.ChitDuration,
-                    percentage = 0,
-                    membercount = CreateChit.TotalMembers,
-                    startdate = CreateChit.StartDate,
-                    amount = (CreateChit.ChitEMIAmount * CreateChit.ChitDuration),
-                    emi = CreateChit.ChitEMIAmount,
-                    createddate = DateTime.Now,
-                    updateddate = DateTime.Now,
-                    status = 1
-                };
-                var a = _db.ChitDetails.Add(NewChit);
+                //ChitDetail NewChit = new ChitDetail
+                //{
+                //    chitname = CreateChit.ChitName,
+                //    tenure = CreateChit.ChitDuration,
+                //    percentage = 0,
+                //    membercount = CreateChit.TotalMembers,
+                //    startdate = CreateChit.StartDate,
+                //    amount = (CreateChit.ChitEMIAmount * CreateChit.ChitDuration),
+                //    emi = CreateChit.ChitEMIAmount,
+                //    createddate = DateTime.Now,
+                //    updateddate = DateTime.Now,
+                //    status = 1
+                //};
+                
+                _db.Database.ExecuteSqlCommand("" +
+                    "Insert into CHitDetails(chitname,tenure,percentage,membercount,startdate,amount,createddate,updateddate,status,emi) values(@chitname,@tenure,@percentage,@membercount,@startdate,@amount,@createddate,@updateddate,@status,@emi)",
+                    new SqlParameter("@chitname", CreateChit.ChitName),
+                    new SqlParameter("@tenure", CreateChit.ChitDuration),
+                    new SqlParameter("@percentage", Convert.ToDecimal(0)),
+                    new SqlParameter("@membercount", CreateChit.TotalMembers),
+                    new SqlParameter("@startdate", CreateChit.StartDate),
+                    new SqlParameter("@amount", (CreateChit.ChitEMIAmount * CreateChit.ChitDuration)),
+                    new SqlParameter("@createddate", DateTime.Now),
+                    new SqlParameter("@updateddate", DateTime.Now),
+                    new SqlParameter("@status",1),
+                     new SqlParameter("@emi", CreateChit.ChitEMIAmount)
+                    );
+               // var a = _db.ChitDetails.Add(NewChit);
                 _db.SaveChanges();
                 //Getting Chit Id from ChitDetails table
                 String GetChitId = _db.ChitDetails.Where(s => s.chitname == CreateChit.ChitName).FirstOrDefault().chitid;
@@ -95,6 +110,7 @@ namespace ChittieAPI.Controllers
                     A.termnumber = ed.DurationID;
                     A.createddate = DateTime.Now;
                     A.status = true;
+                    A.EMIAmount = CreateChit.ChitEMIAmount;
                     _ChitTermGroupList.Add(A);
                 }
                 _db.ChitTermGroups.AddRange(_ChitTermGroupList);
@@ -109,7 +125,7 @@ namespace ChittieAPI.Controllers
                 {
                     ChitBidTimeTable NewChitBidTimeTable = new ChitBidTimeTable();
                     NewChitBidTimeTable.chitID = GetChitId;
-                    if(GetTermDetailsList[CountChitTable].termnumber == CountChitTable)
+                    if((GetTermDetailsList[CountChitTable].termnumber)-1 == CountChitTable)
                     {
                         NewChitBidTimeTable.Amount = CreateChit.UserBidDateTime[CountChitTable].BidAmount;
                         NewChitBidTimeTable.startDate = e.startdate;

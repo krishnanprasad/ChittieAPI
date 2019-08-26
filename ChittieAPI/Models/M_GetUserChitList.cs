@@ -9,5 +9,7 @@ namespace ChittieAPI.Models
     {
         public List<GetUserChit_Result> CurrentChitList { get; set; }
         public List<GetUpComingUserChit_Result> UpComingChitList { get; set; }
+
+        public List<UserChitInvitaion_Result> UserChitInvitationList { get; set; }
     }
 }
